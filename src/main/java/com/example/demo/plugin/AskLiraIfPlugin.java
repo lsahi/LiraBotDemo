@@ -27,7 +27,7 @@ public class AskLiraIfPlugin extends CQPlugin {
     String lastResponse="";
     String tempresponse="";
 
-    public String judgeIfDo(String msg,String lastResponse,Integer repeatCount){
+    public String judgeIfDo(String msg){
         //有人问过就回回过的内容，没人问过就随机一个
         double a=0.5;
         double flag=Math.random();
@@ -67,31 +67,32 @@ public class AskLiraIfPlugin extends CQPlugin {
         String parta=str[0];
         String partb=str[1];
 
-        return judgeIfDo(partb,lastResponse,repeatCount);
+        return judgeIfDo(partb);
 
     }
 
     //假如连续问了几次同样的问题之后要有情绪表现
     //现在不接数据库，暂且和复读机的逻辑一致
-    public void renderCurrentResponse (String msg){
+    public String renderCurrentResponse (String msg){
 
         if (msg.equals(lastMsg)){
             repeatCount++;
             switch (repeatCount){
                 case 1:
-                    break;
+                    return msg;
                 case 2:
-                    tempresponse=lastResponse+"!";
+                    return lastResponse+"!";
                 case 3:
-                    tempresponse=lastResponse+"!!";
+                    return lastResponse+"!!";
                 default:
-                    tempresponse="你是复读机吗???\n是是是是是是是";
+                    return "你是复读机吗???\n是是是是是是是";
             }
         }else{
             repeatCount=0;
             tempresponse="";
             lastResponse="";
             lastMsg=msg;
+            return msg;
         }
     }
 
@@ -106,8 +107,8 @@ public class AskLiraIfPlugin extends CQPlugin {
 
         if (msg.startsWith("Lira")){
             String reply=reply(msg);
-            renderCurrentResponse(reply);
-            cq.sendGroupMsg(groupId,tempresponse,false);
+           // cq.sendGroupMsg(groupId,reply,false);
+            cq.sendGroupMsg(groupId,repeatCount+renderCurrentResponse(reply),false);
         }
 
         return super.onGroupMessage(cq, event);

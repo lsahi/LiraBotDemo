@@ -23,16 +23,12 @@ public class Main {
 
         public String reply (String msg){
 
-            String line="吃没吃";
-            Pattern p= Pattern.compile("[不|没]");
-            //Pattern p= Pattern.compile("(.+)[is]\\1");
-            Matcher m=p.matcher(line);
-            String[] str=p.split(line);
-            Boolean dostr = msg.matches("");
-            System.out.println("split");
-            System.out.println(str[0]+str[1]);
-            boolean needreply = gojudge(msg);
+            Pattern splitpattern=Pattern.compile("[不|没]");
+            String[] str=splitpattern.split(msg);
+            String parta=str[0];
+            String partb=str[1];
 
+            System.out.println(partb);
 
 //        if (needreply){
 //
@@ -48,7 +44,7 @@ public class Main {
     public static void main(String[] args) {
 
         TestClass a=new TestClass();
-        a.reply("a");
+        a.reply("打不打游戏");
 
     }
 

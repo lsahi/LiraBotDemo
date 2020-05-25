@@ -35,7 +35,11 @@ public class AskLiraIfPlugin extends CQPlugin {
         if (flag<a){
             temp = "不"+msg;
         }else {
-            temp =msg;
+            if (msg.length()>1){
+                temp=msg;
+            }else{
+                temp=msg+"了";
+            }
         }
         if (repeatCount>1){
             temp=lastResponse;
@@ -108,7 +112,7 @@ public class AskLiraIfPlugin extends CQPlugin {
         if (msg.startsWith("Lira")){
             String reply=reply(msg);
            // cq.sendGroupMsg(groupId,reply,false);
-            cq.sendGroupMsg(groupId,repeatCount+renderCurrentResponse(reply),false);
+            cq.sendGroupMsg(groupId,reply,false);
         }
 
         return super.onGroupMessage(cq, event);

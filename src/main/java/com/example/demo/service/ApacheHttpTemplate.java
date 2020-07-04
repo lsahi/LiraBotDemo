@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.pojo.GetFoodResult;
 import org.apache.http.HttpResponse;
@@ -154,7 +155,32 @@ public class ApacheHttpTemplate {
     public static void main (String[] args){
         ApacheHttpTemplate tmp = new ApacheHttpTemplate();
         try{
-            tmp.doGet("https://liyuankun.cn/api/v1/recipe/");
+            String res = tmp.doGet("https://liyuankun.cn/api/v1/recipe/");
+            Map<String,Object> firstTryResponseBody = new HashMap<String,Object>(JSONObject.parseObject(res));
+
+            String uriStartWith = new String("https://liyuankun.cn/api/v1/recipe/");
+            Integer page;//这里其实是count，/api/v1/recipe/?limit=20&offset=20
+            int pos=(int)Math.round(20*(Math.random())); //目前第三方api的每页大小是20
+
+            //向第三方请求两次，第一次是拿基础信息，第二次才是实际请求
+            page = (Integer) firstTryResponseBody.get("count");
+
+            long offset=Math.round(page*(Math.random()));
+            String uri = uriStartWith + "?limit=20&offset=" + offset;
+            String finalTry = ApacheHttpTemplate.doGet(uri);
+            //这回是要真正返回吃啥的了
+            Map<String,Object> finalTryResponseBody = new HashMap<>(JSONObject.parseObject(finalTry));
+            JSONArray results = (JSONArray) finalTryResponseBody.get("results");
+            System.out.println("test\n"
+                    + finalTryResponseBody
+                    + "\nresults"
+                    + results.get(pos) + "\n"
+                    + results.get(pos).getClass()
+                    + "\ntestaaaaaa"
+                    + "\n" + JSONObject.parseObject(finalTry).getClass()
+            );
+            JSONObject singleResult = (JSONObject) results.get(pos);
+            System.out.println("\n" + singleResult.get("title"));
         }catch (Exception e){
             System.out.println(e.toString());
         }

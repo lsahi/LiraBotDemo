@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.lang.reflect.Array;
@@ -27,28 +28,37 @@ public class ExclamationCommandPluginService {
     public String replyWhatToEat (){
 
         String uriStartWith = new String("https://liyuankun.cn/api/v1/recipe/");
-        Long page;//这里其实是count，/api/v1/recipe/?limit=20&offset=20
-        long pos=Math.round(20*(Math.random())); //目前第三方api的每页大小是20
+        Integer page;//这里其实是count，/api/v1/recipe/?limit=20&offset=20
+        int pos=(int)Math.round(20*(Math.random())); //目前第三方api的每页大小是20
 
         //向第三方请求两次，第一次是拿基础信息，第二次才是实际请求
         String firstTry = ApacheHttpTemplate.doGet(uriStartWith);
         Map<String,Object> firstTryResponseBody = new HashMap<String,Object>(JSONObject.parseObject(firstTry));
-        page = Long.getLong(firstTryResponseBody.get("count").toString());
+        page = (Integer)firstTryResponseBody.get("count");
+
         long offset=Math.round(page*(Math.random()));
-        String uri = uriStartWith + "?limit=" + pos + "&offset=" + offset;
+        String uri = uriStartWith + "?limit=20&offset=" + offset;
         String finalTry = ApacheHttpTemplate.doGet(uri);
-        Map<String,Object> finalTryResponseBody = new HashMap<String,Object>(JSONObject.parseObject(firstTry));
+        //这回是要真正返回吃啥的了
+        Map<String,Object> finalTryResponseBody = new HashMap<>(JSONObject.parseObject(finalTry));
+        JSONArray results = (JSONArray) finalTryResponseBody.get("results");
+
+        JSONObject singleFood = (JSONObject) results.get(pos);
+        String title = singleFood.get("title").toString();
+        String recipeId = singleFood.get("recipeId").toString();
 
 
-        return "";
+        return title + " " + recipeId;
     }
 
     public String replyHowToCook (String s) {
+        //先不写了
         String[] eatstring = s.split (" ",2);
         String recipeNo = eatstring[1];
         String uri = new String("https://liyuankun.cn/api/v1/recipe/"+recipeNo);
 
-        return "";
+        //temp resp
+        return "春日リラ现已和\"北京百度网讯科技有限公司\"达成了战略合作关系\n百度一下，你就知道!\n戳 >> https://www.baidu.com/";
     }
 
     public String switcher (String msg){

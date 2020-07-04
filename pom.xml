@@ -45,6 +45,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>clj-http</groupId>
+            <artifactId>clj-http</artifactId>
+            <version>3.9.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -72,6 +77,7 @@
             </snapshots>
         </repository>
     </repositories>
+
     <pluginRepositories>
         <pluginRepository>
             <id>aliyun</id>
@@ -85,6 +91,5 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
 
 </project>

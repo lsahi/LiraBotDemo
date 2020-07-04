@@ -26,25 +26,36 @@ public class AskLiraIfPlugin extends CQPlugin {
     String lastResponse="";
     String tempresponse="";
 
-    public String judgeIfDo(String msg){
+    public String judgeIfDo(String orimsg, String msg){
         //有人问过就回回过的内容，没人问过就随机一个
         double a=0.5;
         double flag=Math.random();
-        String temp;
-        if (flag<a){
-            temp = "不"+msg;
-        }else {
-            if (msg.length()>1){
+
+        if (orimsg.contains("不")){
+            String temp;
+            if (flag<a){
+                temp = "不"+msg;
+            }else {
                 temp=msg;
-            }else{
+            }
+            if (repeatCount>1){
+                temp=lastResponse;
+            }
+            lastResponse=temp;
+            return lastResponse;
+        } else {
+            String temp;
+            if (flag<a){
+                temp = "没"+msg;
+            }else {
                 temp=msg+"了";
             }
+            if (repeatCount>1){
+                temp=lastResponse;
+            }
+            lastResponse=temp;
+            return lastResponse;
         }
-        if (repeatCount>1){
-            temp=lastResponse;
-        }
-        lastResponse=temp;
-        return lastResponse;
     }
 
     public String replyAskIfLira (String msg){
@@ -70,7 +81,7 @@ public class AskLiraIfPlugin extends CQPlugin {
         String parta=str[0];
         String partb=str[1];
 
-        return judgeIfDo(partb);
+        return judgeIfDo(msg,partb);
 
     }
 

@@ -5,7 +5,6 @@ import net.lz1998.cq.robot.CQPlugin;
 import net.lz1998.cq.robot.CoolQ;
 import org.springframework.stereotype.Component;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
@@ -48,7 +47,7 @@ public class AskLiraIfPlugin extends CQPlugin {
         return lastResponse;
     }
 
-    public String reply (String msg){
+    public String replyAskIfLira (String msg){
 //        testdata:
 
 //        String line="吃没吃";
@@ -110,7 +109,7 @@ public class AskLiraIfPlugin extends CQPlugin {
         String response;
 
         if (msg.startsWith("Lira")){
-            String reply=reply(msg);
+            String reply= replyAskIfLira(msg);
            // cq.sendGroupMsg(groupId,reply,false);
             cq.sendGroupMsg(groupId,reply,false);
         }

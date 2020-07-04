@@ -54,11 +54,17 @@ public class ExclamationCommandPluginService {
     public String replyHowToCook (String s) {
         //先不写了
         String[] eatstring = s.split (" ",2);
-        String recipeNo = eatstring[1];
-        String uri = new String("https://liyuankun.cn/api/v1/recipe/"+recipeNo);
 
-        //temp resp
-        return "春日リラ现已和\"北京百度网讯科技有限公司\"达成了战略合作关系\n百度一下，你就知道!\n戳 >> https://www.baidu.com/";
+        if (s.equals("!咋做")|| s.equals("！咋做")|| s.equals("!howToCook")||
+                s.equals("！howToCook")|| s.equals("!howtocook")|| s.equals("！howtocook")){
+            return "你连复制个编号都懒得复制吗???";
+        }else{
+            String recipeNo = eatstring[1];
+            String uri = new String("https://liyuankun.cn/api/v1/recipe/"+recipeNo);
+
+            //temp resp
+            return "春日リラ现已和\"北京百度网讯科技有限公司\"达成了战略合作关系\n百度一下，你就知道!\n戳 >> https://www.baidu.com/";
+        }
     }
 
     public String switcher (String msg){

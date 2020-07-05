@@ -120,7 +120,7 @@ public class CherugoPlugin extends CQPlugin {
             if (inMsg.length() > 500) {
                 cq.sendGroupMsg(groupId, "切、切噜太长切不动勒切噜噜...", false);
             }else {
-                cq.sendGroupMsg(groupId, "'切噜～♪'" + strToCheru(inMsg), false);
+                cq.sendGroupMsg(groupId, "切噜～♪" + strToCheru(inMsg), false);
             }
         }
 
@@ -130,7 +130,7 @@ public class CherugoPlugin extends CQPlugin {
                 cq.sendGroupMsg(groupId, "切、切噜太长切不动勒切噜噜...", false);
             }else {
                 try {
-                    cq.sendGroupMsg(groupId, "的切噜噜是：\\n" + cheruToStr(inMsg), false);
+                    cq.sendGroupMsg(groupId, "的切噜噜是：" + cheruToStr(inMsg), false);
                 } catch (UnsupportedEncodingException e) {
                     System.out.println("encoding exception");
                     // TODO Auto-generated catch block

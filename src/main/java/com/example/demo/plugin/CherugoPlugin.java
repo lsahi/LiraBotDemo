@@ -29,7 +29,7 @@ public class CherugoPlugin extends CQPlugin {
     // 词分割
     Pattern rexSplit = Pattern.compile("\\b");
     // 匹配汉字
-    Pattern rexWord = Pattern.compile("[\u4e00-\u9fa5]");
+    Pattern rexWord = Pattern.compile("[\u4e00-\u9fa5A-Za-z]");
     Pattern rexCheruWord = Pattern.compile("切[切卟叮咧哔唎啪啰啵嘭噜噼巴拉蹦铃]+");
 
     /**

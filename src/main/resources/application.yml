@@ -15,6 +15,7 @@ spring:
       - com.example.demo.plugin.HelloPlugin
       - com.example.demo.plugin.RepeatorPlugin
       - com.example.demo.plugin.AskLiraIfPlugin
+      - com.example.demo.plugin.CherugoPlugin
 
     # 下面配置event线程池，也可以删掉用默认的
     event:

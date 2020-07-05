@@ -5,7 +5,6 @@ import net.lz1998.cq.robot.CQPlugin;
 import net.lz1998.cq.robot.CoolQ;
 import org.springframework.stereotype.Component;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
@@ -27,24 +26,39 @@ public class AskLiraIfPlugin extends CQPlugin {
     String lastResponse="";
     String tempresponse="";
 
-    public String judgeIfDo(String msg){
+    public String judgeIfDo(String orimsg, String msg){
         //有人问过就回回过的内容，没人问过就随机一个
         double a=0.5;
         double flag=Math.random();
-        String temp;
-        if (flag<a){
-            temp = "不"+msg;
-        }else {
-            temp =msg;
+
+        if (orimsg.contains("不")){
+            String temp;
+            if (flag<a){
+                temp = "不"+msg;
+            }else {
+                temp=msg;
+            }
+            if (repeatCount>1){
+                temp=lastResponse;
+            }
+            lastResponse=temp;
+            return lastResponse;
+        } else {
+            String temp;
+            if (flag<a){
+                temp = "没"+msg;
+            }else {
+                temp=msg+"了";
+            }
+            if (repeatCount>1){
+                temp=lastResponse;
+            }
+            lastResponse=temp;
+            return lastResponse;
         }
-        if (repeatCount>1){
-            temp=lastResponse;
-        }
-        lastResponse=temp;
-        return lastResponse;
     }
 
-    public String reply (String msg){
+    public String replyAskIfLira (String msg){
 //        testdata:
 
 //        String line="吃没吃";
@@ -67,7 +81,7 @@ public class AskLiraIfPlugin extends CQPlugin {
         String parta=str[0];
         String partb=str[1];
 
-        return judgeIfDo(partb);
+        return judgeIfDo(msg,partb);
 
     }
 
@@ -106,9 +120,9 @@ public class AskLiraIfPlugin extends CQPlugin {
         String response;
 
         if (msg.startsWith("Lira")){
-            String reply=reply(msg);
+            String reply= replyAskIfLira(msg);
            // cq.sendGroupMsg(groupId,reply,false);
-            cq.sendGroupMsg(groupId,repeatCount+renderCurrentResponse(reply),false);
+            cq.sendGroupMsg(groupId,reply,false);
         }
 
         return super.onGroupMessage(cq, event);
